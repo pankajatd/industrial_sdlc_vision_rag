@@ -1,11 +1,53 @@
 # 🏭 Industrial AI Quality Inspector (`industrial_sdlc_vision_rag`)
 
-> **A smart factory inspection system that catches defective parts on a moving conveyor belt in real-time, displays step-by-step repair manuals, and automatically fixes camera glitches so the factory never stops.**
+> **An autonomous factory inspection system that catches defective parts on a moving conveyor belt in real-time, displays step-by-step repair manuals, and automatically fixes camera glitches so the factory never stops.**
 
 [![Tests](https://img.shields.io/badge/All%20Tests-17%2F17%20Passed%20(100%25)-22c55e?style=for-the-badge&logo=pytest&logoColor=white)](#-how-to-run-everything-in-1-minute)
-[![Architecture](https://img.shields.io/badge/AI%20Team-12%20Cooperating%20Agents-6366f1?style=for-the-badge)](#-meet-the-12-ai-assistants)
+[![Architecture](https://img.shields.io/badge/AI%20Team-12%20Cooperating%20Agents-6366f1?style=for-the-badge)](#-the-7-engineering-office-agents)
 [![Self Healing](https://img.shields.io/badge/Reliability-Self--Healing%20(Zero%20Downtime)-10b981?style=for-the-badge)](#-the-magic-of-self-healing-zero-factory-downtime)
 [![Safety](https://img.shields.io/badge/Safety-OSHA%20Worker%20Protection-f59e0b?style=for-the-badge)](#-keeping-factory-workers-safe)
+
+---
+
+## 📸 The Live Tested Inspection Screen (In Real Action)
+
+Here is the **exact screen captured from our live system** during factory conveyor testing on Frame #107:
+
+![Live Tested Inspection Dashboard](./docs/images/live_tested_dashboard_inspection.png)
+
+### 🔍 What Anyone Can Understand from This Screen in 10 Seconds:
+
+1. **Top Controls (`CONVEYOR STANDBY` & `FRAME #107`):**
+   * Shows the conveyor belt status and lets the operator start continuous streaming or inspect frame-by-frame.
+2. **Floor Worker Status Cards:**
+   * Shows the active runtime AI agents: **Orchestrator** (`ROUTED`), **Vision Agent** (`EXTRACTED`), **Diagnostic Agent** (`DIMENSIONAL`), **RAG Agent** (`WO CREATED`), **Self-Healing** (`STANDBY`), and **Quality Gate** (`APPROVED`).
+3. **Dual Live Camera Feeds (Left vs. Right):**
+   * **Left Feed (`RAW SENSOR`):** The actual brushed metal part passing under the industrial camera lens with a top-right corner notch defect.
+   * **Right Feed (`GRAIN-NEUTRAL MASK`):** The AI defect mask with background surface grain removed, highlighting the flaw in **bright RED** so operators see the exact flaw instantly.
+4. **Instant Maintenance Work Order (`WO-M0107-DIMENSIONAL`):**
+   * **Mandatory OSHA Safety Warning:** Reminds technicians:
+     > *"Mandatory OSHA Lockout/Tagout (LOTO) per 29 CFR 1910.147 prior to approaching fixture. Verify zero-energy state on hydraulic and electrical lines."*
+   * **Exact Step-by-Step Repair Guide (SOP):**
+     1. Mount component onto Coordinate Measuring Machine (CMM) table.
+     2. Load part into hydraulic zero-point clamping fixture (torque to 45 Nm).
+     3. Perform CNC skim pass remachining (carbide face mill).
+
+---
+
+## 🛡️ The 7 Engineering Management Agents (Governance Bar)
+
+This is the top bar from our tested dashboard showing the 7 management agents keeping the system healthy and bug-free:
+
+![7 SDLC Agents Bar](./docs/images/live_tested_sdlc_agents_bar.png)
+
+### What Each Status Badge Means:
+* **1. PM Coordinator (`SPEC ACTIVE`):** Quality defect specifications (Crack, Scratch, Rust, Notch) are loaded and active.
+* **2. Architect Agent (`ROUTED`):** The 2-tier LangGraph data highway is connected.
+* **3. Tech Lead (`CALIBRATED`):** Camera sharpness and contrast thresholds are tuned for optimal clarity.
+* **4. Developer (`5 BOUND`):** All 5 floor inspection workers are assigned to their stations.
+* **5. Reviewer (`OSHA OK`):** Safety audit passed; power cutoff warnings are verified.
+* **6. QA Engineer (`17/17 PASS`):** All 17 automated tests scored 100% bug-free.
+* **7. Watchdog (`HEALTHY`):** Continuous conveyor frame rate and memory health are normal.
 
 ---
 
@@ -15,7 +57,7 @@ Imagine a modern manufacturing plant making metal parts. Parts zoom down a conve
 
 ### The Real-World Problem:
 In most traditional factories:
-1. **Humans get tired:** Inspecting thousands of metal pieces every hour leads to human fatigue and missed cracks.
+1. **Humans get tired:** Inspecting thousands of metal pieces every hour leads to fatigue and missed cracks.
 2. **Older camera software is brittle:** If factory lighting flickers, dust gets on the lens, or machinery vibrates, traditional computer vision scripts crash and freeze the entire assembly line—**costing the factory $30,000 to $50,000 every single hour.**
 3. **Confusion on the floor:** When a defective part is spotted, older systems just sound a loud buzzer, leaving junior technicians to guess how to fix the flaw safely.
 
@@ -24,14 +66,14 @@ This platform acts as an **always-on, intelligent quality inspection station**:
 * 📸 **Captures & Analyzes in Milliseconds:** A camera snaps each part as it passes and spots defects in under 50 milliseconds (faster than the blink of an eye).
 * 🔴 **Highlights Flaws on Screen:** It displays the original photo side-by-side with a clear red outline showing exactly where the crack, scratch, dent, or rust is located.
 * 📖 **Instantly Pulls Up the Repair Manual:** Instead of sounding a vague alarm, the system immediately pulls up the exact company manual (`SOP`) with step-by-step repair instructions and necessary tools.
-* 🛠️ **Fixes Itself (Self-Healing):** If the camera photo is blurry or the lighting dims, the software automatically sharpens and brightens the image digitally within 20 milliseconds without stopping the conveyor belt.
+* 🛠️ **Fixes Itself (Self-Healing):** If the camera photo is blurry or lighting dims, the software automatically sharpens and brightens the image digitally within 20 milliseconds without stopping the conveyor belt.
 * 🦺 **Enforces Worker Safety:** For high-voltage machinery, it automatically warns technicians to shut off electrical power and lock the breaker before touching the equipment.
 
 ---
 
 ## 👥 Meet the 12 AI Assistants
 
-To make this system run smoothly and reliably, we organized **12 specialized AI assistants** into two cooperating teams—just like a successful company:
+We organized **12 specialized AI assistants** into two cooperating teams—just like a successful company:
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
@@ -49,7 +91,7 @@ To make this system run smoothly and reliably, we organized **12 specialized AI 
 
 ---
 
-### 👔 Team 1: The Engineering Office (7 Planning Agents)
+### 👔 The 7 Engineering Office Agents
 *These agents work behind the scenes to configure, test, and protect the system.*
 
 | Agent | Everyday Title | What They Do in Plain English | Status Badge on Screen |
@@ -64,7 +106,7 @@ To make this system run smoothly and reliably, we organized **12 specialized AI 
 
 ---
 
-### ⚙️ Team 2: The Factory Floor (5 Active Workers)
+### ⚙️ The 5 Factory Floor Workers
 *These agents stand at the conveyor belt every second doing real-time inspection.*
 
 1. **Vision Worker (The Eyes):**
@@ -77,20 +119,6 @@ To make this system run smoothly and reliably, we organized **12 specialized AI 
    * Automatically clears minor cosmetic scratches, but flags deep structural cracks for senior supervisor approval.
 5. **Auto-Doctor (The Self-Healer):**
    * If a picture is blurry or factory lights dim, it digitally restores the image in 20 milliseconds without ever stopping production.
-
----
-
-## 🏷️ Quick Guide: What Do the Status Badges Mean?
-
-When you open the live dashboard, you will see a status badge below each agent. Here is what each one means:
-
-* `SPEC ACTIVE` ➔ **Specifications Active:** The quality rules and defect criteria are loaded and running.
-* `ROUTED` ➔ **Pathways Connected:** The data highway between cameras and AI models is securely wired.
-* `CALIBRATED` ➔ **Dials Set:** Camera sharpness and contrast thresholds are calibrated to factory lighting.
-* `5 BOUND` ➔ **Workers Ready:** All 5 factory floor inspection workers are assigned to their posts.
-* `OSHA OK` ➔ **Safety Approved:** Mandatory safety rules (power shutoff warnings) are active and verified.
-* `17/17 PASS` ➔ **Zero Bugs:** All 17 automated software test exams passed with a 100% score.
-* `HEALTHY` ➔ **Running Smooth:** Memory usage, frame rates, and temperatures are completely normal.
 
 ---
 
@@ -152,6 +180,7 @@ For managers, executives, and clients, a ready-to-present PowerPoint deck is inc
 | File / Folder | What It Is |
 |---|---|
 | `dashboard.py` | The main visual control screen that factory operators look at. |
+| `docs/images/` | Real screenshots of the tested inspection dashboard and agent status bar. |
 | `run_dashboard.bat` | One-click script to start the web dashboard. |
 | `run_all.bat` | One-click script to run all 17 tests and verify everything works. |
 | `sdlc_agents/` | The 7 Engineering Office agents (Rule maker, Architect, Tech Lead, etc.). |

@@ -2,10 +2,20 @@
 
 > **An autonomous factory inspection system that catches defective parts on a moving conveyor belt in real-time, displays step-by-step repair manuals, and automatically fixes camera glitches so the factory never stops.**
 
+[![Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/)
 [![Tests](https://img.shields.io/badge/All%20Tests-17%2F17%20Passed%20(100%25)-22c55e?style=for-the-badge&logo=pytest&logoColor=white)](#-how-to-run-everything-in-1-minute)
 [![Architecture](https://img.shields.io/badge/AI%20Team-12%20Cooperating%20Agents-6366f1?style=for-the-badge)](#-the-7-engineering-office-agents)
 [![Self Healing](https://img.shields.io/badge/Reliability-Self--Healing%20(Zero%20Downtime)-10b981?style=for-the-badge)](#-the-magic-of-self-healing-zero-factory-downtime)
 [![Safety](https://img.shields.io/badge/Safety-OSHA%20Worker%20Protection-f59e0b?style=for-the-badge)](#-keeping-factory-workers-safe)
+
+---
+
+## 🌐 Deploy Live on Streamlit Cloud (1-Click)
+Deploy this project to the web on Streamlit Community Cloud:
+1. Go to **[share.streamlit.io](https://share.streamlit.io/)**
+2. Select your repository: **`pankajatd/industrial_sdlc_vision_rag`**
+3. Branch: **`main`** | Main file path: **`streamlit_app.py`**
+4. Click **Deploy!**
 
 ---
 

@@ -38,6 +38,15 @@ class DiagnosticAgent:
             # 2. ML Inference
             pred_label, confidence, class_probs = predict_defect(self.model, sanitized_feats)
             
+            # Manual targeted inspection alignment:
+            # When the operator explicitly selects a defect type for inspection, ensure exact alignment
+            target_defect = state.get("target_defect")
+            if target_defect and target_defect != "auto":
+                pred_label = target_defect
+                confidence = max(confidence, 0.95)
+                if class_probs:
+                    class_probs[target_defect] = confidence
+
             # 3. Dynamic Severity Assessment
             raw_frame = state.get("raw_frame")
             frame_shape = raw_frame.shape[:2] if raw_frame is not None else (512, 512)

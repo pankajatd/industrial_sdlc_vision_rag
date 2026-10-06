@@ -12,17 +12,17 @@ from src.tools.feature_tools import extract_features
 MODEL_PATH = os.path.join(MODELS_DIR, "rf_model.joblib")
 _CACHED_MODEL = None
 
-def train_classifier(output_path: str = MODEL_PATH, samples_per_class: int = 35) -> RandomForestClassifier:
+def train_classifier(output_path: str = MODEL_PATH, samples_per_class: int = 50) -> RandomForestClassifier:
     """
-    Trains a Random Forest classifier natively using balanced synthetic metal defect samples.
+    Trains a Random Forest classifier natively using balanced synthetic metal defect samples at 512x512.
     """
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
-    generator = SyntheticIndustrialGenerator(width=256, height=256, seed=42)
+    generator = SyntheticIndustrialGenerator(width=512, height=512, seed=42)
 
     X_list = []
     y_list = []
 
-    print(f"[ML Tools] Generating {samples_per_class * len(DEFECT_CLASSES)} synthetic training frames across 5 classes...")
+    print(f"[ML Tools] Generating {samples_per_class * len(DEFECT_CLASSES)} synthetic training frames across 5 classes (512x512)...")
     for label in DEFECT_CLASSES:
         for _ in range(samples_per_class):
             img, _ = generator.generate(label)

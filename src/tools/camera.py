@@ -84,19 +84,40 @@ class SyntheticIndustrialGenerator:
         return out
 
     def inject_dimensional(self, img: np.ndarray) -> np.ndarray:
-        """Injects corner notch or edge deformation."""
+        """Injects corner notch or edge deformation scaled dynamically to resolution."""
         out = img.copy()
-        # Edge notch
-        edge = random.choice(["top", "bottom", "left", "right"])
-        if edge == "top":
-            pts = np.array([[180, 0], [320, 0], [250, 60]], np.int32)
-        elif edge == "bottom":
-            pts = np.array([[180, self.height], [320, self.height], [250, self.height - 60]], np.int32)
-        elif edge == "left":
-            pts = np.array([[0, 180], [0, 320], [60, 250]], np.int32)
+        flaw_type = random.choice(["corner_chip", "edge_notch"])
+        scale = min(self.width, self.height) / 512.0
+        flaw_size = int(random.uniform(55, 95) * scale)
+
+        if flaw_type == "corner_chip":
+            corner = random.choice(["top_left", "top_right", "bottom_left", "bottom_right"])
+            if corner == "top_left":
+                pts = np.array([[0, 0], [flaw_size, 0], [0, flaw_size]], np.int32)
+            elif corner == "top_right":
+                pts = np.array([[self.width, 0], [self.width - flaw_size, 0], [self.width, flaw_size]], np.int32)
+            elif corner == "bottom_left":
+                pts = np.array([[0, self.height], [flaw_size, self.height], [0, self.height - flaw_size]], np.int32)
+            else:
+                pts = np.array([[self.width, self.height], [self.width - flaw_size, self.height], [self.width, self.height - flaw_size]], np.int32)
+            cv2.fillPoly(out, [pts], (15, 15, 15))
         else:
-            pts = np.array([[self.width, 180], [self.width, 320], [self.width - 60, 250]], np.int32)
-        cv2.fillPoly(out, [pts], (15, 15, 15))
+            edge = random.choice(["top", "bottom", "left", "right"])
+            nw = int(flaw_size * 1.5)
+            nh = int(flaw_size * 0.8)
+            if edge == "top":
+                cx = random.randint(nw, max(nw + 1, self.width - nw))
+                pts = np.array([[cx - nw // 2, 0], [cx + nw // 2, 0], [cx, nh]], np.int32)
+            elif edge == "bottom":
+                cx = random.randint(nw, max(nw + 1, self.width - nw))
+                pts = np.array([[cx - nw // 2, self.height], [cx + nw // 2, self.height], [cx, self.height - nh]], np.int32)
+            elif edge == "left":
+                cy = random.randint(nh, max(nh + 1, self.height - nh))
+                pts = np.array([[0, cy - nh // 2], [0, cy + nh // 2], [nw, cy]], np.int32)
+            else:
+                cy = random.randint(nh, max(nh + 1, self.height - nh))
+                pts = np.array([[self.width, cy - nh // 2], [self.width, cy + nh // 2], [self.width - nw, cy]], np.int32)
+            cv2.fillPoly(out, [pts], (15, 15, 15))
         return out
 
     def generate(self, defect_type: str = "normal") -> Tuple[np.ndarray, str]:

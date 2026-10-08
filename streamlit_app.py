@@ -330,34 +330,33 @@ with tab_inspect:
         conf_pct = int(alert.get("confidence", 0.95) * 100)
         sev_level = alert.get("severity_level", "NORMAL")
 
-        badge_color = "badge-red" if sev_level == "CRITICAL" else "badge-orange" if sev_level == "WARNING" else "badge-green"
+        # Work Order Header Card
+        wo_id = wo.get('work_order_id', 'WO-M0107')
+        st.markdown(f"#### 🎫 Ticket ID: `{wo_id}`")
+        k1, k2, k3 = st.columns(3)
+        with k1:
+            st.metric("Severity Level", f"{sev_level}", "Risk Rating")
+        with k2:
+            st.metric("Model Confidence", f"{conf_pct}%", "Random Forest")
+        with k3:
+            st.metric("Pipeline Latency", f"{latency_ms} ms", "Real-Time SLA")
 
-        st.markdown(f"""
-        <div class="ticket-card">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                <h3 style="margin: 0; color: #ffffff;">Ticket ID: <code>{wo.get('work_order_id', 'WO-M0107')}</code></h3>
-                <div>
-                    <span class="badge-status {badge_color}">{sev_level} SEVERITY</span>
-                    <span class="badge-status badge-blue">CONFIDENCE: {conf_pct}%</span>
-                    <span class="badge-status badge-green">LATENCY: {latency_ms}ms</span>
-                </div>
-            </div>
-            
-            <div class="loto-alert">
-                <b>⚠️ MANDATORY OSHA 1910.147 DIRECTIVES (LOCKOUT / TAGOUT):</b><br>
-                {"<br>".join([f"• {d}" for d in wo.get('safety_directives', [])])}
-            </div>
-            
-            <div style="background: #1f2937; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
-                <b style="color: #60a5fa;">🛠️ Standard Operating Procedure (SOP):</b><br>
-                {"<br>".join([f"{i+1}. {step}" for i, step in enumerate(wo.get('repair_procedure', []))])}
-            </div>
-            
-            <div style="font-size: 12px; color: #9ca3af;">
-                <b>Verified Engineering Source:</b> <code>{', '.join(wo.get('source_manuals', ['SOP-000']))}</code> | <b>Human Sign-Off Required:</b> {wo.get('technician_signoff_required', False)}
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
+        # Mandatory OSHA LOTO Directives
+        directives = wo.get('safety_directives', [])
+        if directives:
+            directive_text = "\n".join([f"• {d}" for d in directives])
+            st.error(f"**⚠️ MANDATORY OSHA 1910.147 DIRECTIVES (LOCKOUT / TAGOUT):**\n\n{directive_text}")
+
+        # Standard Operating Procedure (SOP)
+        procedures = wo.get('repair_procedure', [])
+        if procedures:
+            proc_text = "\n".join([f"**{i+1}.** {step}" for i, step in enumerate(procedures)])
+            st.info(f"**🛠️ Standard Operating Procedure (SOP):**\n\n{proc_text}")
+
+        # Verified Source and Sign-off
+        sources = ', '.join(wo.get('source_manuals', ['SOP-000']))
+        signoff = wo.get('technician_signoff_required', False)
+        st.caption(f"📚 **Verified Engineering Source:** `{sources}` | ✍️ **Human Sign-Off Required:** `{signoff}`")
     else:
         st.success("✅ **Clean Pass (Nominal Component):** No defects detected. Workpiece passed quality inspection standards.")
 
